@@ -3,10 +3,16 @@ package ru.ifellow.JSchool.introdution;
 public class FirstSteps {
 
     public int sum(int x, int y) {
+        if ((y > 0 && x > Integer.MAX_VALUE - y) || (y < 0 && x < Integer.MIN_VALUE - y)) {
+            throw new IllegalArgumentException();
+        }
         return x + y;
     }
 
     public int mul(int x, int y) {
+        if (Integer.MAX_VALUE / Math.abs(x) < Math.abs(y)) {
+            throw new IllegalArgumentException();
+        }
         return x * y;
     }
 
@@ -33,15 +39,23 @@ public class FirstSteps {
     public int sum(int[] array) {
         int sum = 0;
         for (int num : array) {
+            if ((num > 0 && sum > Integer.MAX_VALUE - num) ||
+                    (num < 0 && sum < Integer.MIN_VALUE - num)) {
+                throw new IllegalArgumentException();
+            }
             sum += num;
         }
         return sum;
     }
 
     public int mul(int[] array) {
-        if (array.length == 0) return 0;
+        if (array.length == 0) return 1;
         int result = 1;
         for (int num : array) {
+            if (num != 0 && ((num == -1 && result == Integer.MIN_VALUE) ||
+                    (result > Integer.MAX_VALUE / num) || (result < Integer.MIN_VALUE / num))) {
+                throw new IllegalArgumentException();
+            }
             result *= num;
         }
         return result;
@@ -72,7 +86,9 @@ public class FirstSteps {
 
     public boolean isSortedDescendant(int[] array) {
         for (int i = 1; i < array.length; i++) {
-            if (array[i] >= array[i - 1]) return false;
+            if (array[i] >= array[i - 1]) {
+                return false;
+            }
         }
         return true;
     }
@@ -81,10 +97,9 @@ public class FirstSteps {
         for (int i = 0; i < array.length; i++) {
             long cube = (long) array[i] * array[i] * array[i];
             if (cube > Integer.MAX_VALUE || cube < Integer.MIN_VALUE) {
-                array[i] = 0;
-            } else {
-                array[i] = (int) cube;
+                throw new IllegalArgumentException();
             }
+            array[i] = (int) cube;
         }
     }
 
@@ -120,6 +135,10 @@ public class FirstSteps {
         int sum = 0;
         for (int[] row : matrix) {
             for (int num : row) {
+                if ((num > 0 && sum > Integer.MAX_VALUE - num) ||
+                        (num < 0 && sum < Integer.MIN_VALUE - num)) {
+                    throw new IllegalArgumentException();
+                }
                 sum += num;
             }
         }
@@ -138,16 +157,14 @@ public class FirstSteps {
 
     public int diagonalMax(int[][] matrix) {
         if (matrix.length == 0) return Integer.MIN_VALUE;
-        for (int[] i : matrix) {
-            if (i.length != matrix.length) {
+        for (int[] row : matrix) {
+            if (row.length != matrix.length) {
                 throw new IllegalArgumentException();
             }
         }
         int max = Integer.MIN_VALUE;
         for (int i = 0; i < matrix.length; i++) {
-            if (i < matrix[i].length && matrix[i][i] > max) {
-                max = matrix[i][i];
-            }
+            max = Math.max(max, matrix[i][i]);
         }
         return max;
     }
