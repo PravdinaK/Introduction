@@ -3,17 +3,15 @@ package ru.ifellow.JSchool.introdution;
 public class FirstSteps {
 
     public int sum(int x, int y) {
-        long result = (long) x + y;
-        return (int) result;
+        return x + y;
     }
 
     public int mul(int x, int y) {
-        long result = (long) x * y;
-        return (int) result;
+        return x * y;
     }
 
     public int div(int x, int y) {
-        return (int) ((double) x / y);
+        return x / y;
     }
 
     public int mod(int x, int y) {
@@ -42,11 +40,11 @@ public class FirstSteps {
 
     public int mul(int[] array) {
         if (array.length == 0) return 0;
-        long result = 1;
+        int result = 1;
         for (int num : array) {
             result *= num;
         }
-        return (int) result;
+        return result;
     }
 
     public int min(int[] array) {
@@ -82,7 +80,11 @@ public class FirstSteps {
     public void cube(int[] array) {
         for (int i = 0; i < array.length; i++) {
             long cube = (long) array[i] * array[i] * array[i];
-            array[i] = (int) cube;
+            if (cube > Integer.MAX_VALUE || cube < Integer.MIN_VALUE) {
+                array[i] = 0;
+            } else {
+                array[i] = (int) cube;
+            }
         }
     }
 
@@ -115,13 +117,13 @@ public class FirstSteps {
     }
 
     public int sum(int[][] matrix) {
-        long sum = 0;
+        int sum = 0;
         for (int[] row : matrix) {
             for (int num : row) {
                 sum += num;
             }
         }
-        return (int) sum;
+        return sum;
     }
 
     public int max(int[][] matrix) {
@@ -136,6 +138,11 @@ public class FirstSteps {
 
     public int diagonalMax(int[][] matrix) {
         if (matrix.length == 0) return Integer.MIN_VALUE;
+        for (int[] i : matrix) {
+            if (i.length != matrix.length) {
+                throw new IllegalArgumentException();
+            }
+        }
         int max = Integer.MIN_VALUE;
         for (int i = 0; i < matrix.length; i++) {
             if (i < matrix[i].length && matrix[i][i] > max) {
@@ -147,7 +154,7 @@ public class FirstSteps {
 
     public boolean isSortedDescendant(int[][] matrix) {
         for (int[] row : matrix) {
-            if (!isSortedDescendant(row)) return false;
+            if (row.length > 1 && !isSortedDescendant(row)) return false;
         }
         return true;
     }
