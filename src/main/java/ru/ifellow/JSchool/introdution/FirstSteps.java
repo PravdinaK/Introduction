@@ -49,11 +49,10 @@ public class FirstSteps {
     }
 
     public int mul(int[] array) {
-        if (array.length == 0) return 1;
+        if (array.length == 0) return 0;
         int result = 1;
         for (int num : array) {
-            if (num != 0 && ((num == -1 && result == Integer.MIN_VALUE) ||
-                    (result > Integer.MAX_VALUE / num) || (result < Integer.MIN_VALUE / num))) {
+            if (num != 0 && ((result > Integer.MAX_VALUE / num) || (result < Integer.MIN_VALUE / num))) {
                 throw new IllegalArgumentException();
             }
             result *= num;
