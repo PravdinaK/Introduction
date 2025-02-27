@@ -52,15 +52,17 @@ public class FirstSteps {
     }
 
     public int mul(int[] array) {
-        if (array == null || array.length == 0) return 0;
-        int result = 1;
-        for (int num : array) {
-            if (num != 0 && ((result > Integer.MAX_VALUE / num) || (result < Integer.MIN_VALUE / num))) {
-                throw new IllegalArgumentException();
-            }
-            result *= num;
+        if (array == null) {
+            throw new IllegalArgumentException();
         }
-        return result;
+        if (array.length > 0) {
+            int result = 1;
+            for (int num : array) {
+                result = mul(result, num);
+            }
+            return result;
+        }
+        return 0;
     }
 
     public int min(int[] array) {
